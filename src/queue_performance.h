@@ -99,7 +99,7 @@ namespace queue_performance {
 			config.bytes = parsed_opts["b"].as<unsigned short>();
 
 		if (parsed_opts.count("c"))
-			config.count = parsed_opts["c"].as<unsigned long>() * 1000000;
+			config.count = parsed_opts["c"].as<unsigned long>();
 
 		if (parsed_opts.count("w"))
 			config.wait_free = true;

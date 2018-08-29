@@ -2,3 +2,5 @@ build/
 .idea
 *.csv
 ext/
+out/
+.python-version
