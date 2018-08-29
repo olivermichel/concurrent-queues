@@ -4,6 +4,8 @@ import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
 
+from cycler import cycler
+
 #
 # import sys
 # import numpy
@@ -22,37 +24,33 @@ data = {
     'moodycamel_queue': np.loadtxt("out/moodycamel_queue.csv", dtype=format, delimiter=',')
 }
 
-plt.hist(
-    [data['queue1'][:]['throughput'],
-     data['queue2'][:]['throughput'],
-     data['queue3'][:]['throughput'],
-     data['moodycamel_queue'][:]['throughput']],
-    normed=True, cumulative=True, histtype='step')
+#TODO: needs to go in rc file
+
+font = {'family': 'serif', 'serif': ['Times New Roman'], 'size': 12}
+lines = {'linewidth': 2}
+matplotlib.rc('font', **font)
+matplotlib.rc('lines', **lines)
+
+
+default_cycler = (cycler(color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',
+                                '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
+                                '#bcbd22', '#17becf']))
+
+matplotlib.rc('axes', prop_cycle=default_cycler)
+matplotlib.rc('ytick', color='#333333')
+matplotlib.rc('xtick', color='#333333')
+matplotlib.rc('legend', edgecolor='#333333', fontsize=12)
+
+for q in data:
+    counts, edges = np.histogram(data[q][:]['throughput'], bins=100, normed=True)
+    cum = np.cumsum(counts)
+    plt.plot(edges[1:], cum/cum[-1])
+
 plt.xlabel('elements per second [M]')
 plt.ylabel('CDF')
+plt.xlim([0, 15])
+plt.ylim([0,1])
+plt.grid(True)
+plt.margins(0)
+plt.legend(['Q1', 'Q2', 'Q3', 'MC'], loc='lower right')
 plt.show()
-
-#
-# cdfs = list(map(lambda series: CDF(series), data))
-#
-# plt.figure(figsize=(4.2, 4.2))
-#
-# for cdf in cdfs:
-#     plt.plot(cdf.x(), cdf.y())
-#
-# plt.xlabel('elements per second [M]')
-# plt.ylabel('CDF')
-# plt.xlim([0, 10])
-# plt.grid(True)
-# plt.legend(['Q1', 'Q2', 'Q3', 'MC'], loc=4)
-# plt.margins(0)
-# plt.savefig("queue_comparison_cdf.pdf", dpi=300)
-#
-# medians = list(map(lambda series: numpy.median(series), data))
-# print(medians)
-#
-# plt.figure(figsize=(4.2, 4.2))
-# plt.bar(numpy.arange(4), medians)
-# plt.xticks(numpy.arange(4), ('Q1', 'Q2', 'Q3', 'MC'))
-# plt.ylabel('elements per second [M]')
-# plt.savefig("queue_comparison_median.pdf", dpi=300)
