@@ -9,6 +9,8 @@ Oliver Michel, 2018,  *oliver dot michel at colorado dot edu*
 |queue1        |Linked List        |Locks             |
 |queue2        |Array              |Locks             |
 |queue3        |Linked List        |Atomic Variables  |
+|queue4        |Array              |Atomic Variables  |
+|queue5        |Array              |Atomic Variables  |
 |moodycamel    |Array              |Atomic Variables  |
 
 ### Run Basic Experiment

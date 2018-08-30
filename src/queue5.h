@@ -89,14 +89,14 @@ namespace queue_performance {
 			throw std::invalid_argument("must be power of 2");
 		}
 
-		const std::memory_order _mod_load_order = std::memory_order::memory_order_seq_cst;
+//		const std::memory_order _mod_load_order = std::memory_order::memory_order_seq_cst;
 //	const std::memory_order _lku_load_order = std::memory_order::memory_order_seq_cst;
-		const std::memory_order _store_order    = std::memory_order::memory_order_seq_cst;
-/*
+//		const std::memory_order _store_order    = std::memory_order::memory_order_seq_cst;
+
 	const std::memory_order _mod_load_order = std::memory_order::memory_order_relaxed;
-	const std::memory_order _lku_load_order = std::memory_order::memory_order_acquire;
+//	const std::memory_order _lku_load_order = std::memory_order::memory_order_acquire;
 	const std::memory_order _store_order    = std::memory_order::memory_order_release;
-*/
+
 	};
 }
 

@@ -14,7 +14,7 @@ int main(int argc_, char** argv_)
 
 	qp::queue5<qp::data_t> queue;
 
-	auto producer = [&queue, &config, &data, &sizes]() {
+	auto producer = [&queue, &config, &data]() {
 
 		for (unsigned long i = 0; i < config.count; i++) {
 			while(!queue.enqueue(std::move(data[i])));
