@@ -40,13 +40,22 @@ mkdir -p out
 #    $cmd >> out/queue3.csv
 #done
 
-cmd="${numa}${EXE_PATH:-./build}/queue4 --bytes $3 --count $5"
+#cmd="${numa}${EXE_PATH:-./build}/queue4 --bytes $3 --count $5"
+#echo "# $2 * $cmd"
+#
+#for (( i=0; i < $2; i++ ))
+#do
+#    $cmd >> out/queue4.csv
+#done
+
+cmd="${numa}${EXE_PATH:-./build}/queue5 --bytes $3 --count $5"
 echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd >> out/queue4.csv
+    $cmd >> out/queue5.csv
 done
+
 
 #cmd="${numa}${EXE_PATH:-./build}/moodycamel_queue --bytes $3 --count $5"
 #echo "# $2 * $cmd"

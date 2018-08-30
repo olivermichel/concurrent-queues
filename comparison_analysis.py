@@ -15,8 +15,9 @@ data = {
     'queue1': np.loadtxt("out/queue1.csv", dtype=format, delimiter=','),
     'queue2': np.loadtxt("out/queue2.csv", dtype=format, delimiter=','),
     'queue3': np.loadtxt("out/queue3.csv", dtype=format, delimiter=','),
+    'moodycamel_queue': np.loadtxt("out/moodycamel_queue.csv", dtype=format, delimiter=','),
     'queue4': np.loadtxt("out/queue4.csv", dtype=format, delimiter=','),
-    'moodycamel_queue': np.loadtxt("out/moodycamel_queue.csv", dtype=format, delimiter=',')
+    'queue5': np.loadtxt("out/queue5.csv", dtype=format, delimiter=',')
 }
 
 #TODO: needs to go in rc file
@@ -44,9 +45,10 @@ for q in data:
 
 plt.xlabel('elements per second [M]')
 plt.ylabel('CDF')
-plt.xlim([0, 18])
+plt.xlim([0, 24])
 plt.ylim([0, 1])
 plt.grid(True)
 plt.margins(0)
-plt.legend(['linked list, locks', 'array, locks', 'linked list, lock-free', 'array, lock-free', 'MC'], loc='lower right')
+plt.legend(['linked list, locks', 'array, locks', 'linked list, lock-free', 'moodycamel',
+            'array, lock-free', 'array, lock-free 2'], loc='lower right')
 plt.show()

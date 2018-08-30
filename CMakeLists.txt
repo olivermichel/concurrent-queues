@@ -29,6 +29,8 @@ add_executable(queue3 src/queue3_main.cc src/queue_performance.h src/queue3.h)
 
 add_executable(queue4 src/queue4_main.cc src/queue_performance.h src/queue4.h)
 
+add_executable(queue5 src/queue5_main.cc src/queue_performance.h src/queue5.h)
+
 add_executable(moodycamel_queue src/moodycamel_queue_main.cc src/queue_performance.h)
 
 include_directories(ext/include PUBLIC)
