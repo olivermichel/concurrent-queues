@@ -21,6 +21,7 @@ data = {
     'queue1': np.loadtxt("out/queue1.csv", dtype=format, delimiter=','),
     'queue2': np.loadtxt("out/queue2.csv", dtype=format, delimiter=','),
     'queue3': np.loadtxt("out/queue3.csv", dtype=format, delimiter=','),
+    'queue4': np.loadtxt("out/queue4.csv", dtype=format, delimiter=','),
     'moodycamel_queue': np.loadtxt("out/moodycamel_queue.csv", dtype=format, delimiter=',')
 }
 
@@ -37,9 +38,9 @@ default_cycler = (cycler(color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',
                                 '#bcbd22', '#17becf']))
 
 matplotlib.rc('axes', prop_cycle=default_cycler)
-matplotlib.rc('ytick', color='#333333')
-matplotlib.rc('xtick', color='#333333')
-matplotlib.rc('legend', edgecolor='#333333', fontsize=12)
+matplotlib.rc('ytick', color='#222222')
+matplotlib.rc('xtick', color='#222222')
+matplotlib.rc('legend', edgecolor='#222222', fontsize=12)
 
 for q in data:
     counts, edges = np.histogram(data[q][:]['throughput'], bins=100, normed=True)
@@ -52,5 +53,5 @@ plt.xlim([0, 15])
 plt.ylim([0,1])
 plt.grid(True)
 plt.margins(0)
-plt.legend(['Q1', 'Q2', 'Q3', 'MC'], loc='lower right')
+plt.legend(['Q1', 'Q2', 'Q3', 'Q4', 'MC'], loc='lower right')
 plt.show()
