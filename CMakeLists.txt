@@ -33,5 +33,7 @@ add_executable(queue5 src/queue5_main.cc src/queue_performance.h src/queue5.h)
 
 add_executable(moodycamel_queue src/moodycamel_queue_main.cc src/queue_performance.h)
 
+add_executable(queue5_detail src/queue5_detail_main.cc src/queue_performance.h src/queue5.h)
+
 include_directories(ext/include PUBLIC)
 link_libraries(pthread)
