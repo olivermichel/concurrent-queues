@@ -20,7 +20,8 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd >> out/queue1.csv
+    $cmd 2>&1 | tee -a out/queue1.csv
+    sleep 1
 done
 
 cmd="${numa}${EXE_PATH:-./build}/queue2 --bytes $3 --count $4"
@@ -28,7 +29,8 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd >> out/queue2.csv
+    $cmd 2>&1 | tee -a out/queue2.csv
+    sleep 1
 done
 
 cmd="${numa}${EXE_PATH:-./build}/queue3 --bytes $3 --count $5"
@@ -36,7 +38,8 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd >> out/queue3.csv
+    $cmd 2>&1 | tee -a out/queue3.csv
+    sleep 1
 done
 
 cmd="${numa}${EXE_PATH:-./build}/queue4 --bytes $3 --count $5"
@@ -44,7 +47,8 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd >> out/queue4.csv
+    $cmd 2>&1 | tee -a out/queue4.csv
+    sleep 1
 done
 
 cmd="${numa}${EXE_PATH:-./build}/queue5 --bytes $3 --count $5"
@@ -52,7 +56,8 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd >> out/queue5.csv
+    $cmd 2>&1 | tee -a out/queue5.csv
+    sleep 1
 done
 
 cmd="${numa}${EXE_PATH:-./build}/moodycamel_queue --bytes $3 --count $5"
@@ -60,7 +65,6 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd >> out/moodycamel_queue.csv
+    $cmd 2>&1 | tee -a out/moodycamel_queue.csv
+    sleep 1
 done
-
-#python comparison_analysis.py
