@@ -59,26 +59,29 @@ int main(int argc_, char** argv_)
 {
 	namespace qp = queue_performance;
 	const auto config = _parse_config(_set_options(), argc_, argv_);
-	auto data = new data_t<DATA_LEN>[config.count];
+
 	qp::queue5<data_t<DATA_LEN>> queue;
 
-	auto producer = [&queue, &config, &data]() {
-		for (unsigned long i = 0; i < config.count; i += config.batch)
+	auto adjusted_len = config.count - (config.count % config.batch);
+	auto data = new data_t<DATA_LEN>[adjusted_len];
+
+	auto producer = [&queue, &config, &data, &adjusted_len]() {
+		for (unsigned long i = 0; i < adjusted_len; i += config.batch)
 			while(!queue.enqueue(data + i, config.batch));
 	};
 
-	auto consumer = [&queue, &config]() {
+	auto consumer = [&queue, &config, &adjusted_len]() {
 		data_t<DATA_LEN> rx_d;
 		queue_performance::signal sig;
 
 		auto start = std::chrono::high_resolution_clock::now();
 
-		for (unsigned long i = 0; i < config.count; i++)
+		for (unsigned long i = 0; i < adjusted_len; i++)
 			while(!queue.dequeue(rx_d, sig));
 
 		// count, time, throughput
-		std::cout << config.count << ", " << qp::secs_since(start) << ", "
-				  << config.count / qp::secs_since(start) / 1000000 << std::endl;
+		std::cout << adjusted_len << ", " << qp::secs_since(start) << ", "
+				  << adjusted_len / qp::secs_since(start) / 1000000 << std::endl;
 	};
 
 	std::thread producer_thread(producer);

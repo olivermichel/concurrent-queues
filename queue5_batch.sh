@@ -15,9 +15,6 @@ fi
 
 mkdir -p out
 
-
-#TODO: i % $2 must be 0, other results currently omitted
-
 for (( i=1; i <= $3; i++ ))
 do
     cmd="${numa}${EXE_PATH:-./build}/queue5_batch --count $2 --batch $i"
