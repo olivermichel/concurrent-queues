@@ -40,28 +40,6 @@ namespace queue_performance {
 		virtual bool dequeue(T& item_, signal& signal_) = 0;
 	};
 
-	template <typename T>
-	class _blocking_queue : public _queue<T>
-	{
-	public:
-		virtual void enqueue_wait(const T& item_, signal signal_ = signal::proceed) = 0;
-		virtual void dequeue_wait(T& item_, signal& signal_) = 0;
-	};
-
-	template <typename T>
-	class _zero_copy_enqueue : public _queue<T>
-	{
-	public:
-		virtual bool enqueue(T&& item_, signal signal_ = signal::proceed) = 0;
-	};
-
-	template <typename T>
-	class _zero_copy_dequeue : public _queue<T>
-	{
-	public:
-		virtual bool dequeue(T&& item_, signal _signal_) = 0;
-	};
-
 	struct config {
 		unsigned short bytes = 8;
 		unsigned long  count = 10 * 1000000;

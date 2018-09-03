@@ -40,6 +40,20 @@ namespace queue_performance {
 			return true;
 		}
 
+		bool enqueue(T* e_, index_t count_ = 1, signal signal_ = signal::proceed)
+		{
+			if (!available(count_)) return false;
+			const auto t = _tail.load(_mod_load_order);
+
+			for (index_t i = 0; i < count_; i++) {
+				_buf[_mask(t + i)]._item = std::move(e_[i]);
+				_buf[_mask(t + i)]._signal = signal_;
+			}
+
+			_tail.store(t + count_, _store_order);
+			return true;
+		}
+
 		bool dequeue(T& e_, signal& signal_)
 		{
 			if (empty()) return false;
@@ -63,6 +77,11 @@ namespace queue_performance {
 		inline index_t size() const
 		{
 			return _tail.load(_mod_load_order) - _head.load(_mod_load_order);
+		}
+
+		inline bool available(index_t count_)
+		{
+			return (_tail.load(_mod_load_order) - _head.load(_mod_load_order)) < (_capacity - count_);
 		}
 
 		~queue5()
