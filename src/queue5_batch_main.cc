@@ -80,7 +80,7 @@ int main(int argc_, char** argv_)
 			while(!queue.dequeue(rx_d, sig));
 
 		// count, time, throughput
-		std::cout << adjusted_len << ", " << qp::secs_since(start) << ", "
+		std::cout << config.batch << ", " << adjusted_len << ", " << qp::secs_since(start) << ", "
 				  << adjusted_len / qp::secs_since(start) / 1000000 << std::endl;
 	};
 
