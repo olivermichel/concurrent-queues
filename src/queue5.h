@@ -40,7 +40,7 @@ namespace queue_performance {
 			return true;
 		}
 
-		bool enqueue(T* e_, index_t count_ = 1, signal signal_ = signal::proceed)
+		bool enqueue_batch(T* e_, index_t count_ = 1, signal signal_ = signal::proceed)
 		{
 			if (!available(count_)) return false;
 			const auto t = _tail.load(_mod_load_order);
@@ -64,6 +64,19 @@ namespace queue_performance {
 			return true;
 		}
 
+		bool dequeue_batch(T* e_, index_t count_ = 1)
+		{
+			if (size() < count_) return false;
+			const auto h = _head.load(_mod_load_order);
+
+			for (index_t i = 0; i < count_; i++)
+				*(e_ + i) = std::move(_buf[_mask(h + i)]._item);
+
+			_last_signal = _buf[_mask(h + count_)]._signal;
+			_head.store(h + count_, _store_order);
+			return true;
+		}
+
 		inline bool full() const
 		{
 			return (_tail.load(_mod_load_order) - _head.load(_mod_load_order)) == _capacity;
@@ -84,6 +97,11 @@ namespace queue_performance {
 			return (_tail.load(_mod_load_order) - _head.load(_mod_load_order)) < (_capacity - count_);
 		}
 
+		inline signal last_signal() const
+		{
+			return _last_signal;
+		}
+
 		~queue5()
 		{
 			delete[] _buf;
@@ -94,6 +112,8 @@ namespace queue_performance {
 		index_t  _capacity;
 		typename _wait_free_queue<T>::_element* _buf;
 		std::atomic<index_t> _head, _tail;
+
+		signal _last_signal = signal::proceed;
 
 		// equivalent to i_ % _capacity
 		inline index_t _mask(const index_t i_) const

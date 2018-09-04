@@ -1,5 +1,6 @@
 
-batch_size_throughput_plot.pdf: batch_size_throughput_plot.gp batch_size_throughput_plot.csv
+batch_size_throughput_plot.pdf: batch_size_throughput_plot.gp batch_size_throughput_plot.csv \
+	../config.gp
 	gnuplot $<
 
 batch_size_throughput_plot.csv: queue5_batch.R queue5_batch.csv

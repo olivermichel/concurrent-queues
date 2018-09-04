@@ -15,6 +15,7 @@ set border 3 back ls 80
 
 set style line 1 lt rgb "#A00000" lw 1.3 pt 6
 set style line 2 lt rgb "#006699" lw 1.3 pt 4
-set style line 3 lt rgb "#5060D0" lw 1.3 pt 8
+set style line 3 lt rgb "#006633" lw 1.3 pt 8
 set style line 4 lt rgb "#F25900" lw 1.3 pt 12
-set style line 5 lt rgb "#666666" lw 1.3 pt -1
+set style line 5 lt rgb "#666666" lw 1.3 pt 14
+set style line 6 lt rgb "#9966ff" lw 1.3 pt 16

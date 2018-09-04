@@ -67,17 +67,17 @@ int main(int argc_, char** argv_)
 
 	auto producer = [&queue, &config, &data, &adjusted_len]() {
 		for (unsigned long i = 0; i < adjusted_len; i += config.batch)
-			while(!queue.enqueue(data + i, config.batch));
+			while(!queue.enqueue_batch(data + i, config.batch));
 	};
 
 	auto consumer = [&queue, &config, &adjusted_len]() {
-		data_t<DATA_LEN> rx_d;
+		data_t<DATA_LEN> rx_d[255];
 		queue_performance::signal sig;
 
 		auto start = std::chrono::high_resolution_clock::now();
 
-		for (unsigned long i = 0; i < adjusted_len; i++)
-			while(!queue.dequeue(rx_d, sig));
+		for (unsigned long i = 0; i < adjusted_len; i += config.batch)
+			while(!queue.dequeue_batch(rx_d, config.batch));
 
 		// count, time, throughput
 		std::cout << config.batch << ", " << adjusted_len << ", " << qp::secs_since(start) << ", "
