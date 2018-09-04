@@ -7,17 +7,17 @@ set datafile separator ","
 set xlabel "throughput [M records/s]"
 set ylabel "CDF"
 
+#set xrange[0:20]
+set yrange[0:1]
+
 data_file = 'comparison_plot.csv'
 
-stats data_file using 1 name 'queue1'
-stats data_file using 2 name 'queue2'
-stats data_file using 3 name 'queue3'
-stats data_file using 4 name 'queue4'
-stats data_file using 5 name 'queue5'
+n = 20
 
 set output 'comparison_plot.pdf';
-plot data_file using 1:(1./queue1_records) smooth cumulative title 'queue1' ls 1, \
-     data_file using 2:(1./queue2_records) smooth cumulative title 'queue2' ls 2, \
-     data_file using 3:(1./queue3_records) smooth cumulative title 'queue3' ls 3, \
-     data_file using 4:(1./queue4_records) smooth cumulative title 'queue4' ls 4, \
-     data_file using 5:(1./queue5_records) smooth cumulative title 'queue5' ls 5
+plot data_file using 1:(1./n) smooth cumulative title 'queue1' ls 1, \
+     data_file using 2:(1./n) smooth cumulative title 'queue2' ls 2, \
+     data_file using 3:(1./n) smooth cumulative title 'queue3' ls 3, \
+     data_file using 4:(1./n) smooth cumulative title 'moodycamel' ls 4, \
+     data_file using 5:(1./n) smooth cumulative title 'queue4' ls 5, \
+     data_file using 6:(1./n) smooth cumulative title 'queue5' ls 6

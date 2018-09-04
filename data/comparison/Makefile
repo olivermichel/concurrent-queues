@@ -1,5 +1,5 @@
 
-comparison_plot.pdf: comparison_plot.gp comparison_plot.csv
+comparison_plot.pdf: comparison_plot.gp comparison_plot.csv ../config.gp
 	gnuplot $<
 
 comparison_plot.csv: comparison.R moodycamel.csv queue1.csv queue2.csv queue3.csv queue4.csv \
