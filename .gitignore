@@ -2,6 +2,6 @@ build/
 .idea
 *.csv
 ext/
-out/
-.python-version
-.venv
+data/**/*.pdf
+.Rproj.user
+.Rhistory

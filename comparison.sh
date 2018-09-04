@@ -20,7 +20,7 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a out/queue1.csv
+    $cmd 2>&1 | tee -a data/comparison_out/queue1.csv
     sleep 1
 done
 
@@ -29,7 +29,7 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a out/queue2.csv
+    $cmd 2>&1 | tee -a data/comparison_out/queue2.csv
     sleep 1
 done
 
@@ -38,7 +38,7 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a out/queue3.csv
+    $cmd 2>&1 | tee -a data/comparison_out/queue3.csv
     sleep 1
 done
 
@@ -47,7 +47,7 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a out/queue4.csv
+    $cmd 2>&1 | tee -a data/comparison_out/queue4.csv
     sleep 1
 done
 
@@ -56,7 +56,7 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a out/queue5.csv
+    $cmd 2>&1 | tee -a data/comparison_out/queue5.csv
     sleep 1
 done
 
@@ -65,6 +65,6 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a out/moodycamel_queue.csv
+    $cmd 2>&1 | tee -a data/comparison_out/moodycamel.csv
     sleep 1
 done
