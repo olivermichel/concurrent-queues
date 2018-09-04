@@ -61,7 +61,7 @@ int main(int argc_, char** argv_)
 	consumer_thread.join();
 	producer_thread.join();
 /*
-	std::fstream fs("out/queue5_detail.csv", std::ios::out);
+	std::fstream fs("data/queue5_detail.csv", std::ios::data);
 
 	for (auto i : sizes)
 		fs << i << std::endl;

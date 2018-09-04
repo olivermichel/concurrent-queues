@@ -20,6 +20,6 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a out/queue5_detail.csv
+    $cmd 2>&1 | tee -a data/queue5_detail.csv
     sleep 1
 done
