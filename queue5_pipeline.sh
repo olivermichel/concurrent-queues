@@ -17,10 +17,10 @@ mkdir -p out
 
 for (( i=1; i <= $4; i++ ))
 do
-    cmd="${numa}${EXE_PATH:-./build}/queue5_batch --count $2 --batch $i"
+    cmd="${numa}${EXE_PATH:-./build}/queue5_pipeline --count $2 --batch $i"
     for (( j=1; j <= $3; j++ ))
     do
-        $cmd 2>&1 | tee -a data/queue5_batch/queue5_batch.csv
+        $cmd 2>&1 | tee -a data/queue5_pipeline/queue5_pipeline.csv
         sleep 1
     done
 done
