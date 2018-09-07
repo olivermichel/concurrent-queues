@@ -43,13 +43,10 @@ namespace queue_performance {
 		void enqueue(T&& new_value)
 		{
 			std::shared_ptr<T> new_data(std::make_shared<T>(new_value));
-
 			auto p = new node;
 			node* const old_tail = _tail.load();
-
 			old_tail->data.swap(new_data);
 			old_tail->next = p;
-
 			_tail.store(p);
 		}
 

@@ -14,9 +14,8 @@ int main(int argc_, char** argv_)
 	qp::queue4<qp::data_t> queue;
 
 	auto producer = [&queue, &config, &data]() {
-
 		for (unsigned long i = 0; i < config.count; i++)
-			while(!queue.enqueue(std::move(data[i])));
+			while(!queue.enqueue(config.zero_copy ? std::move(data[i]) : data[i]));
 	};
 
 	auto consumer = [&queue, &config]() {

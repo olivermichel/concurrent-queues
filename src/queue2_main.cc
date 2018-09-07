@@ -19,13 +19,11 @@ int main(int argc_, char** argv_)
 	qp::queue2<qp::data_t> queue;
 
 	auto producer = [&queue, &config, &data]() {
-
 		for (unsigned long i = 0; i < config.count; i++)
 			queue.enqueue(data[i]);
 	};
 
 	auto consumer = [&queue, &config]() {
-
 		qp::data_t rx_d;
 		queue_performance::signal sig;
 

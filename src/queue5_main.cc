@@ -15,10 +15,8 @@ int main(int argc_, char** argv_)
 	qp::queue5<qp::data_t> queue;
 
 	auto producer = [&queue, &config, &data]() {
-
-		for (unsigned long i = 0; i < config.count; i++) {
+		for (unsigned long i = 0; i < config.count; i++)
 			while(!queue.enqueue(config.zero_copy ? std::move(data[i]) : data[i]));
-		}
 	};
 
 	auto consumer = [&queue, &config]() {
@@ -28,7 +26,7 @@ int main(int argc_, char** argv_)
 		auto start = std::chrono::high_resolution_clock::now();
 
 		for (unsigned long i = 0; i < config.count; i++)
-			while(!queue.dequeue(rx_d, sig));
+			while(!queue.dequeue(rx_d, sig)) { }
 
 		// count, time, throughput
 		std::cout << config.count << ", " << qp::secs_since(start) << ", "

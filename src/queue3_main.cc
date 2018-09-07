@@ -19,19 +19,18 @@ int main(int argc_, char** argv_)
 	qp::queue3<qp::data_t> queue;
 
 	auto producer = [&queue, &config, &data]() {
-
 		for (unsigned long i = 0; i < config.count; i++)
-			queue.enqueue(std::move(data[i]));
+			queue.enqueue(config.zero_copy ? std::move(data[i]) : data[i]);
 	};
 
 	auto consumer = [&queue, &config]() {
-
-		std::shared_ptr<qp::data_t> rx_d;
-
+		std::shared_ptr<qp::data_t> rx_d = nullptr;
 		auto start = std::chrono::high_resolution_clock::now();
 
-		for (unsigned long i = 0; i < config.count; i++)
-			rx_d = queue.dequeue();
+		for (unsigned long i = 0; i < config.count; i++) {
+			rx_d = nullptr;
+			while ((rx_d = queue.dequeue()) == nullptr) { }
+		}
 
 		// count, time, throughput
 		std::cout << config.count << ", " << qp::secs_since(start) << ", "

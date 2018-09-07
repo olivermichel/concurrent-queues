@@ -15,15 +15,9 @@ int main(int argc_, char** argv_)
 	moodycamel::ConcurrentQueue<qp::data_t> queue;
 
 	auto producer = [&queue, &config, &data]() {
-
 		unsigned long i = 0;
-
 		while (i < config.count)
-
-			if (config.zero_copy)
-				i = queue.try_enqueue(std::move(data[i])) ? i + 1 : i;
-			else
-				i = queue.try_enqueue(data[i]) ? i + 1 : i;
+			i = queue.try_enqueue(config.zero_copy ? std::move(data[i]) : data[i]) ? i + 1 : i;
 	};
 
 	auto consumer = [&queue, &config]() {
