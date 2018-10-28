@@ -1,7 +1,7 @@
 
 load '../config.gp'
 
-set terminal pdfcairo font "sans,12" linewidth 4 rounded fontscale 1.0 size 6,2.5
+set terminal pdfcairo font "sans,12" linewidth 4 rounded fontscale 1.0 size 6,3
 set datafile separator ","
 
 set xlabel "throughput [M records/s]"
