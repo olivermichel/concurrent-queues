@@ -1,0 +1,64 @@
+---
+title: "Optimizing Concurrent Queues for Throughput"
+author: "Oliver Michel"
+date: "10/27/2018"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE, message=FALSE, cache=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  dev = c('png', 'pdf'), 
+  fig.align = 'center',
+  fig.height = 2.5,
+  fig.width = 5.5,
+  fig.keep = 'high',
+  fig.path = 'fig/') 
+
+library(readr)
+library(ggplot2)
+library(reshape2)
+library(plyr)
+
+source('../config-r/config.R')
+
+cnames <- c('element_count', 'time', 'throughput')
+
+data <- dplyr::bind_rows('q1' = read_csv("queue1.csv", col_names = cnames), 
+                 'q2' = read_csv("queue2.csv", col_names = cnames),
+                 'q3' = read_csv("queue3.csv", col_names = cnames),
+                 'mc' = read_csv('moodycamel.csv', col_names = cnames),
+                 'q4' = read_csv("queue4.csv", col_names = cnames),
+                 'q5' = read_csv("queue5.csv", col_names = cnames),
+                 .id = 'queue')
+```
+
+```{r summary}
+tp_summary <- arrange(
+  ddply(data, 'queue', summarize, 
+      count=length(throughput),
+      mean=mean(throughput),
+      sd=sd(throughput),
+      q25=quantile(throughput, .25),
+      q50=quantile(throughput, .50),
+      q75=quantile(throughput, .75),
+      min=min(throughput),
+      max=max(throughput)
+), mean)
+# tp_summary
+knitr::kable(tp_summary)
+```
+
+```{r means, message=FALSE}
+ggplot(tp_summary, aes(x=reorder(queue, mean), y=mean)) +
+    geom_bar(stat='identity', fill='#003366', width=0.65) +
+    theme_om() + ylab('Mean Throughput [M records/s]') + xlab('Queue')
+```
+
+```{r cdf,  message=FALSE}
+ggplot(data, aes(throughput, color=queue)) + stat_ecdf(size=0.75) +
+  theme_om() +
+  theme(legend.position = c(0.99, 0.5), legend.title = element_blank()) +
+  xlab('Throughput [M records/s]') + ylab('CDF') + scale_color_brewer(palette="Dark2")
+```

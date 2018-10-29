@@ -1,11 +1,12 @@
 
-comparison_plot.pdf: comparison_plot.gp comparison_plot.csv ../config.gp
-	gnuplot $<
+DOC = comparison.html
+SRC = comparison.Rmd
+DATA = queue1.csv queue2.csv queue3.csv queue4.csv queue5.csv moodycamel.csv
+PLOTS = cdf-1.pdf cdf-1.png means-1.pdf means-1.png
 
-comparison_plot.csv: comparison.R moodycamel.csv queue1.csv queue2.csv queue3.csv queue4.csv \
-	queue5.csv
-	R -q -f $< 2> /dev/null
+$(DOC) $(addprefix fig/, $(PLOTS)): $(SRC) $(DATA)
+	Rscript -e 'library(rmarkdown); rmarkdown::render("$<", "html_document")'
 
 clean:
-	$(RM) comparison_plot.pdf
-	$(RM) comparison_plot.csv
+	$(RM) $(DOC) $(addprefix fig/, $(PLOTS))
+	rmdir fig
