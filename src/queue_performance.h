@@ -7,7 +7,7 @@
 #define JETSTREAM_QUEUE_PERFORMANCE_H
 
 #include <chrono>
-
+#include <cstdint>
 #include <cxxopts/cxxopts.h>
 
 namespace queue_performance {
