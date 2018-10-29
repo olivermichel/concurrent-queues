@@ -1,0 +1,3 @@
+[submodule "data/config-r"]
+	path = data/config-r
+	url = https://gist.github.com/43fc30324d1659892897751d916437d7.git
