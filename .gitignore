@@ -5,4 +5,4 @@ ext/
 data/**/*.pdf
 .Rproj.user
 .Rhistory
-.Rdata
+.RData
