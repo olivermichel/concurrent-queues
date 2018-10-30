@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-if [ "$#" -ne "5" ]
+if [ "$#" -ne "6" ]
 then
-    echo "usage: $0 NUMA N B C1 C2";
+    echo "usage: $0 NUMA N B C1 C2 OUT";
     exit 1;
 fi
 
@@ -20,7 +20,7 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a data/comparison/queue1.csv
+    $cmd 2>&1 | tee -a $6
     sleep 1
 done
 
@@ -29,16 +29,16 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a data/comparison/queue2.csv
+    $cmd 2>&1 | tee -a $6
     sleep 1
 done
 
-cmd="${numa}${EXE_PATH:-./build}/queue3 --bytes $3 --count $5"
+cmd="${numa}${EXE_PATH:-./build}/queue3 --bytes $3 --count $4"
 echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a data/comparison/queue3.csv
+    $cmd 2>&1 | tee -a $6
     sleep 1
 done
 
@@ -47,7 +47,7 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a data/comparison/queue4.csv
+    $cmd 2>&1 | tee -a $6
     sleep 1
 done
 
@@ -56,7 +56,7 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a data/comparison/queue5.csv
+    $cmd 2>&1 | tee -a $6
     sleep 1
 done
 
@@ -65,6 +65,6 @@ echo "# $2 * $cmd"
 
 for (( i=0; i < $2; i++ ))
 do
-    $cmd 2>&1 | tee -a data/comparison/moodycamel.csv
+    $cmd 2>&1 | tee -a $6
     sleep 1
 done

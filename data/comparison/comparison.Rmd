@@ -23,28 +23,25 @@ library(plyr)
 
 source('../config-r/config.R')
 
-cnames <- c('element_count', 'time', 'throughput')
-
-data <- dplyr::bind_rows('q1' = read_csv("queue1.csv", col_names = cnames), 
-                 'q2' = read_csv("queue2.csv", col_names = cnames),
-                 'q3' = read_csv("queue3.csv", col_names = cnames),
-                 'mc' = read_csv('moodycamel.csv', col_names = cnames),
-                 'q4' = read_csv("queue4.csv", col_names = cnames),
-                 'q5' = read_csv("queue5.csv", col_names = cnames),
-                 .id = 'queue')
+data <- read_csv('102818-8b-gcc8-i75557u.csv', col_names = c('queue', 'count', 'time', 'throughput'))
 ```
+
+|Name      |Memory Layout|Thread Safety  |Zero-Copy Enqueue|
+|----------|-------------|---------------|-----------------|
+|queue1    |Linked List  |Locks          |no               |
+|queue2    |Array        |Locks          |no               |
+|queue3    |Linked List  |Memory Barriers|no               |
+|queue4    |Array        |Memory Barriers|available        |
+|queue5    |Array        |Memory Barriers|available        |
+|moodycamel|Array        |Memory Barriers|available        |
+
 
 ```{r summary}
 tp_summary <- arrange(
   ddply(data, 'queue', summarize, 
-      count=length(throughput),
-      mean=mean(throughput),
-      sd=sd(throughput),
-      q25=quantile(throughput, .25),
-      q50=quantile(throughput, .50),
-      q75=quantile(throughput, .75),
-      min=min(throughput),
-      max=max(throughput)
+      count=length(throughput), mean=mean(throughput), sd=sd(throughput),
+      q25=quantile(throughput, .25), q50=quantile(throughput, .50), q75=quantile(throughput, .75),
+      min=min(throughput), max=max(throughput)
 ), mean)
 # tp_summary
 knitr::kable(tp_summary)

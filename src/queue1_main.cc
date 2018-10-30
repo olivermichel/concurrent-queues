@@ -35,7 +35,7 @@ int main(int argc_, char** argv_)
 			queue.dequeue(rx_d, sig);
 
 		// count, time, throughput
-		std::cout << config.count << ", " << qp::secs_since(start) << ", "
+		std::cout << "q1, " << config.count << ", " << qp::secs_since(start) << ", "
 				  << config.count / qp::secs_since(start) / 1000000 << std::endl;
 	};
 

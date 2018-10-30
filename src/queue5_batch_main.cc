@@ -1,5 +1,6 @@
 
 #include <thread>
+#include <cstdlib>
 #include <iostream>
 #include <cxxopts/cxxopts.h>
 
