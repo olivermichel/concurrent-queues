@@ -1,0 +1,43 @@
+---
+title: "Queue 5 Batching Experiment"
+author: "Oliver Michel"
+date: "10/29/2018"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE, message=FALSE, cache=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  dev = c('png', 'pdf'), 
+  fig.align = 'center',
+  fig.height = 2.5,
+  fig.width = 5.5,
+  fig.keep = 'high',
+  fig.path = 'fig/') 
+
+inside_knitr = function() {
+    length(knitr::opts_current$get()) > 0
+}
+
+library(readr)
+library(ggplot2)
+library(reshape2)
+library(plyr)
+
+source('../config-r/config.R')
+```
+
+```{r import, message=FALSE}
+data <- read_csv('results/queue5_batch.csv', col_names = c('batch_size', 'count', 'time', 'throughput'))
+```
+
+```{r throughput}
+means <- ddply(data, 'batch_size', summarize, mean_throughput=mean(throughput))
+
+ggplot(means, aes(x=batch_size, y=mean_throughput)) + theme_om() + 
+  geom_line(color='#003366', size=0.75) + xlab('Batch Size') + ylab('Throughput [M records/s]')
+
+# geom_smooth(color='#006699', size=0.5, se=FALSE, linetype=2) 
+```
+

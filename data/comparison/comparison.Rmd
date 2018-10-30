@@ -16,15 +16,18 @@ knitr::opts_chunk$set(
   fig.keep = 'high',
   fig.path = 'fig/') 
 
+inside_knitr = function() {
+    length(knitr::opts_current$get()) > 0
+}
+
 library(readr)
 library(ggplot2)
 library(reshape2)
 library(plyr)
 
 source('../config-r/config.R')
-
-data <- read_csv('102818-8b-gcc8-i75557u.csv', col_names = c('queue', 'count', 'time', 'throughput'))
 ```
+
 
 |Name      |Memory Layout|Thread Safety  |Zero-Copy Enqueue|
 |----------|-------------|---------------|-----------------|
@@ -35,6 +38,9 @@ data <- read_csv('102818-8b-gcc8-i75557u.csv', col_names = c('queue', 'count', '
 |queue5    |Array        |Memory Barriers|available        |
 |moodycamel|Array        |Memory Barriers|available        |
 
+```{r import, message=FALSE}
+data <- read_csv('results/102818-8b-gcc8-i75557u.csv', col_names = c('queue', 'count', 'time', 'throughput'))
+```
 
 ```{r summary}
 tp_summary <- arrange(
@@ -43,8 +49,8 @@ tp_summary <- arrange(
       q25=quantile(throughput, .25), q50=quantile(throughput, .50), q75=quantile(throughput, .75),
       min=min(throughput), max=max(throughput)
 ), mean)
-# tp_summary
-knitr::kable(tp_summary)
+
+if (inside_knitr()) knitr::kable(tp_summary) else tp_summary
 ```
 
 ```{r means, message=FALSE}

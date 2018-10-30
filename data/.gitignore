@@ -2,3 +2,7 @@ comparison/*.html
 comparison/*.pdf
 comparison/*.csv
 comparison/fig
+queue5_batch/*.html
+queue5_batch/*.pdf
+queue5_batch/*.csv
+queue5_batch/fig

@@ -3,7 +3,7 @@ batch_size_throughput_plot.pdf: batch_size_throughput_plot.gp batch_size_through
 	../config.gp
 	gnuplot $<
 
-batch_size_throughput_plot.csv: queue5_batch.R queue5_batch.csv
+batch_size_throughput_plot.csv: queue5_batch.R results/queue5_batch.csv
 	R -q -f $< 2> /dev/null
 
 clean:
