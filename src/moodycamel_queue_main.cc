@@ -31,8 +31,9 @@ int main(int argc_, char** argv_)
 			i = queue.try_dequeue(rx_d) ? i + 1 : i;
 
 		// count, time, throughput
-		std::cout << "mc, " << config.count << ", " << qp::secs_since(start) << ", "
-			<< config.count / qp::secs_since(start) / 1000000 << std::endl;
+		std::cout << "mc, " << config.bytes << ", " << config.count << ", "
+				  << qp::secs_since(start) << ", " << config.count / qp::secs_since(start) / 1000000
+				  << std::endl;
 	};
 
 	std::thread producer_thread(producer);

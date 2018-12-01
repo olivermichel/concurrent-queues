@@ -28,8 +28,9 @@ int main(int argc_, char** argv_)
 			while(!queue.dequeue(rx_d, sig));
 
 		// count, time, throughput
-		std::cout << "q4, " << config.count << ", " << qp::secs_since(start) << ", "
-				  << config.count / qp::secs_since(start) / 1000000 << std::endl;
+		std::cout << "q4, " << config.bytes << ", " << config.count << ", "
+				  << qp::secs_since(start) << ", " << config.count / qp::secs_since(start) / 1000000
+				  << std::endl;
 	};
 
 	std::thread producer_thread(producer);
