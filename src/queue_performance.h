@@ -93,13 +93,21 @@ namespace queue_performance {
 
 //	using data_t = unsigned long;
 
-	template <unsigned L>
-	class data_t {
+	const unsigned Len = 40;
+
+	template <unsigned Len>
+	class static_data_t {
 	public:
-		explicit data_t()
+		explicit static_data_t()
 			: _data{}
 		{
-			std::fill(_data, _data + L, '\0');
+			std::fill(_data, _data + Len, '\0');
+		}
+
+		explicit static_data_t(const static_data_t& c_)
+		{
+			std::cout << "C()" << std::endl;
+			std::memcpy(_data, c_._data, Len);
 		}
 
 //		data_t(const data_t& copy_from_)
@@ -109,18 +117,17 @@ namespace queue_performance {
 //			std::memcpy(_data, copy_from_._data, L);
 //		}
 //
-//		data_t& operator=(const data_t& copy_from_)
-//		{
-////			_l = copy_from_._l;
-////			_data = new unsigned char[copy_from_._l];
-//			std::memcpy(_data, copy_from_._data, L);
-//			return *this;
-//		}
+		static_data_t& operator=(const static_data_t& c_)
+		{
+			std::cout << "C=" << std::endl;
+			std::memcpy(_data, c_._data, Len);
+			return *this;
+		}
 
-//		data_t(data_t&& move_from_) noexcept
-//			: _data(move_from_._data)
+//		data_t(data_t&& m_) noexcept
+//			: _data(std::move(m_._data))
 //		{
-////			move_from_._data = nullptr;
+//			m_._data = nullptr;
 //		}
 
 //		data_t& operator=(data_t&& move_from_) noexcept
@@ -139,7 +146,7 @@ namespace queue_performance {
 	private:
 //		unsigned short _l;
 
-		unsigned char _data[L];
+		unsigned char _data[Len];
 
 //		unsigned char* _data;
 	};
