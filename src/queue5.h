@@ -14,7 +14,7 @@ namespace queue_performance {
 		using index_t = unsigned long;
 	public:
 
-		explicit queue5(index_t capacity_ = 524288)
+		explicit queue5(index_t capacity_ = 2048)
 			: _capacity(_power2_check(capacity_)),
 			  _buf(new typename _wait_free_queue<T>::_element[capacity_]),
 			  _head(0),
@@ -22,8 +22,12 @@ namespace queue_performance {
 
 		bool enqueue(const T& e_, signal signal_ = signal::proceed)
 		{
-			if (full()) return false;
 			const auto t = _tail.load(_mod_load_order);
+
+			// check if full
+			if ((t - _head.load(_mod_load_order)) == _capacity)
+				return false;
+
 			_buf[_mask(t)]._item = e_;
 			_buf[_mask(t)]._signal = signal_;
 			_tail.store(t + 1, _store_order);
@@ -32,8 +36,12 @@ namespace queue_performance {
 
 		bool enqueue(T&& e_, signal signal_ = signal::proceed)
 		{
-			if (full()) return false;
 			const auto t = _tail.load(_mod_load_order);
+
+			// check if full
+			if ((t - _head.load(_mod_load_order)) == _capacity)
+				return false;
+
 			_buf[_mask(t)]._item = std::move(e_);
 			_buf[_mask(t)]._signal = signal_;
 			_tail.store(t + 1, _store_order);
@@ -56,8 +64,12 @@ namespace queue_performance {
 
 		bool dequeue(T& e_, signal& signal_)
 		{
-			if (empty()) return false;
 			const auto h = _head.load(_mod_load_order);
+
+			// check if empty
+			if (h == _tail.load(_mod_load_order))
+				return false;
+
 			e_ = std::move(_buf[_mask(h)]._item);
 			signal_ = _buf[_mask(h)]._signal;
 			_head.store(h + 1, _store_order);

@@ -16,7 +16,7 @@ int main(int argc_, char** argv_)
 
 		auto producer = [&queue, &config, &data]() {
 			for (unsigned long i = 0; i < config.count; i++)
-				while(!queue.enqueue(data[i]));
+				while(!queue.enqueue(std::move(data[i])));
 		};
 
 		auto consumer = [&queue, &config]() {
