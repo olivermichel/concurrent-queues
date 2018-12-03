@@ -76,7 +76,7 @@ namespace queue_performance {
 		auto parsed_opts = opts_.parse(argc_, argv_);
 
 		if (parsed_opts.count("c"))
-			config.count = parsed_opts["c"].as<unsigned long>();
+			config.count = parsed_opts["c"].as<unsigned long>() * 1000000;
 
 		if (parsed_opts.count("r"))
 			config.runs = parsed_opts["r"].as<unsigned>();
