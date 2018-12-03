@@ -20,6 +20,18 @@ if (NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/ext/include/moodycamel/concurrentqueue.
         ${CMAKE_CURRENT_LIST_DIR}/ext/include/moodycamel/concurrentqueue.h)
 endif ()
 
+if (NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/ext/include/moodycamel/readerwriterqueue.h)
+    file(DOWNLOAD
+            https://raw.githubusercontent.com/cameron314/readerwriterqueue/master/readerwriterqueue.h
+            ${CMAKE_CURRENT_LIST_DIR}/ext/include/moodycamel/readerwriterqueue.h)
+endif ()
+
+if (NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/ext/include/moodycamel/atomicops.h)
+    file(DOWNLOAD
+            https://raw.githubusercontent.com/cameron314/readerwriterqueue/master/atomicops.h
+            ${CMAKE_CURRENT_LIST_DIR}/ext/include/moodycamel/atomicops.h)
+endif ()
+
 add_executable(queue1 src/queue1_main.cc src/queue_performance.h src/queue1.h)
 target_include_directories(queue1 PUBLIC ext/include)
 target_link_libraries(queue1 pthread)

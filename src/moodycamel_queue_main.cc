@@ -1,6 +1,7 @@
 #include "queue_performance.h"
 
 #include <moodycamel/concurrentqueue.h>
+#include <moodycamel/readerwriterqueue.h>
 
 #include <thread>
 #include <vector>
@@ -9,31 +10,23 @@ int main(int argc_, char** argv_)
 {
 	namespace qp = queue_performance;
 	const auto config = qp::_parse_config(queue_performance::_set_options(), argc_, argv_);
+	auto data = new qp::static_data_t<qp::Len>[config.count];
 
-	std::vector<qp::data_t> data(config.count, qp::data_t(config.bytes));
-
-	moodycamel::ConcurrentQueue<qp::data_t> queue;
+	moodycamel::ReaderWriterQueue<qp::static_data_t<qp::Len>> queue {};
 
 	auto producer = [&queue, &config, &data]() {
-		unsigned long i = 0;
-		while (i < config.count)
-			i = queue.try_enqueue(config.zero_copy ? std::move(data[i]) : data[i]) ? i + 1 : i;
+		for (unsigned long i = 0; i < config.count; i++)
+			queue.enqueue(data[i]);
 	};
 
 	auto consumer = [&queue, &config]() {
-
-		unsigned long i = 0;
-		qp::data_t rx_d;
-
+		qp::static_data_t<qp::Len> rx_d;
 		auto start = std::chrono::high_resolution_clock::now();
 
-		while (i < config.count)
-			i = queue.try_dequeue(rx_d) ? i + 1 : i;
+		for (unsigned long i = 0; i < config.count; i++)
+			while (!queue.try_dequeue(rx_d)) { }
 
-		// count, time, throughput
-		std::cout << "mc, " << config.bytes << ", " << config.count << ", "
-				  << qp::secs_since(start) << ", " << config.count / qp::secs_since(start) / 1000000
-				  << std::endl;
+		std::cout << qp::output_line("mc", qp::Len, qp::secs_since(start), config.count);
 	};
 
 	std::thread producer_thread(producer);
