@@ -59,10 +59,10 @@ namespace queue_performance {
 		cxxopts::Options opts("queue_performance", " - ");
 
 		opts.add_options()
-			("b,bytes", "bytes per element", cxxopts::value<unsigned short>(), "B")
+//			("b,bytes", "bytes per element", cxxopts::value<unsigned short>(), "B")
 			("c,count", "element count in millions", cxxopts::value<unsigned long>(), "C")
 			("w,wait-free", "use wait-free queue access")
-			("z,zero-copy", "use zero-copy enqueueing")
+//			("z,zero-copy", "use zero-copy enqueueing")
 			("h,help", "print this help message");
 
 		return opts;
@@ -73,17 +73,11 @@ namespace queue_performance {
 		config config {};
 		auto parsed_opts = opts_.parse(argc_, argv_);
 
-		if (parsed_opts.count("b"))
-			config.bytes = parsed_opts["b"].as<unsigned short>();
-
 		if (parsed_opts.count("c"))
 			config.count = parsed_opts["c"].as<unsigned long>();
 
 		if (parsed_opts.count("w"))
 			config.wait_free = true;
-
-		if (parsed_opts.count("z"))
-			config.zero_copy = true;
 
 		if (parsed_opts.count("h"))
 			_print_help(opts_);
@@ -91,9 +85,7 @@ namespace queue_performance {
 		return config;
 	}
 
-//	using data_t = unsigned long;
-
-	const unsigned Len = 40;
+	const unsigned Len = 32;
 
 	template <unsigned Len>
 	class static_data_t {
@@ -104,52 +96,30 @@ namespace queue_performance {
 			std::fill(_data, _data + Len, '\0');
 		}
 
-		explicit static_data_t(const static_data_t& c_)
+		static_data_t(const static_data_t& c_)
+			: _data{}
 		{
-			std::cout << "C()" << std::endl;
 			std::memcpy(_data, c_._data, Len);
 		}
 
-//		data_t(const data_t& copy_from_)
-//			: /* _l(copy_from_._l), */_data(/*new unsigned char[copy_from_._l]*/)
-//		{
-//			std::cout << "copy construct" << std::endl;
-//			std::memcpy(_data, copy_from_._data, L);
-//		}
-//
 		static_data_t& operator=(const static_data_t& c_)
 		{
-			std::cout << "C=" << std::endl;
 			std::memcpy(_data, c_._data, Len);
 			return *this;
 		}
 
-//		data_t(data_t&& m_) noexcept
-//			: _data(std::move(m_._data))
-//		{
-//			m_._data = nullptr;
-//		}
-
-//		data_t& operator=(data_t&& move_from_) noexcept
-//		{
-////			_l = move_from_._l;
-//			_data = move_from_._data;
-//			move_from_._data = nullptr;
-//			return *this;
-//		}
-
-//		virtual ~data_t()
-//		{
-//			delete[] _data;
-//		}
-
 	private:
-//		unsigned short _l;
-
 		unsigned char _data[Len];
-
-//		unsigned char* _data;
 	};
+
+	std::string output_line(const std::string& queue_id_, unsigned len_, double duration_,
+		unsigned long count_)
+	{
+		std::stringstream ss;
+		ss << queue_id_ << "," << len_ << "," << duration_ << ","
+		   << (count_ /duration_ / 1000000) << std::endl;
+		return ss.str();
+	}
 
 	double secs_since(std::chrono::time_point<std::chrono::high_resolution_clock>& start_)
 	{

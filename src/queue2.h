@@ -17,7 +17,7 @@ namespace queue_performance {
 	class queue2 : public _wait_free_queue<T>
 	{
 	public:
-		explicit queue2(unsigned initial_capacity_ = 32)
+		explicit queue2(unsigned initial_capacity_ = 524288)
 			: _buf(new typename _wait_free_queue<T>::_element[initial_capacity_]),
 			  _capacity(initial_capacity_),
 			  _mutex(),

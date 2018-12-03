@@ -28,10 +28,6 @@ add_executable(queue2 src/queue2_main.cc src/queue_performance.h src/queue2.h)
 target_include_directories(queue2 PUBLIC ext/include)
 target_link_libraries(queue2 pthread)
 
-add_executable(queue3 src/queue3_main.cc src/queue_performance.h src/queue3.h)
-target_include_directories(queue3 PUBLIC ext/include)
-target_link_libraries(queue3 pthread)
-
 add_executable(queue4 src/queue4_main.cc src/queue_performance.h src/queue4.h)
 target_include_directories(queue4 PUBLIC ext/include)
 target_link_libraries(queue4 pthread)
