@@ -41,10 +41,11 @@ namespace queue_performance {
 	};
 
 	struct config {
-		unsigned short bytes = 8;
+//		unsigned short bytes = 8;
 		unsigned long  count = 10 * 1000000;
+		unsigned       runs  = 1;
 		bool wait_free = false;
-		bool zero_copy = false;
+//		bool zero_copy = false;
 	};
 
 	void _print_help(cxxopts::Options& opts_, int exit_code_ = 0)
@@ -61,6 +62,7 @@ namespace queue_performance {
 		opts.add_options()
 //			("b,bytes", "bytes per element", cxxopts::value<unsigned short>(), "B")
 			("c,count", "element count in millions", cxxopts::value<unsigned long>(), "C")
+			("r,runs", "experiment runs", cxxopts::value<unsigned>(), "R")
 			("w,wait-free", "use wait-free queue access")
 //			("z,zero-copy", "use zero-copy enqueueing")
 			("h,help", "print this help message");
@@ -75,6 +77,9 @@ namespace queue_performance {
 
 		if (parsed_opts.count("c"))
 			config.count = parsed_opts["c"].as<unsigned long>();
+
+		if (parsed_opts.count("r"))
+			config.runs = parsed_opts["r"].as<unsigned>();
 
 		if (parsed_opts.count("w"))
 			config.wait_free = true;
