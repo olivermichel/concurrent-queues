@@ -44,6 +44,7 @@ namespace queue_performance {
 //		unsigned short bytes = 8;
 		unsigned long  count = 10 * 1000000;
 		unsigned       runs  = 1;
+		unsigned       size  = 2048;
 		bool wait_free = false;
 //		bool zero_copy = false;
 	};
@@ -63,6 +64,7 @@ namespace queue_performance {
 //			("b,bytes", "bytes per element", cxxopts::value<unsigned short>(), "B")
 			("c,count", "element count in millions", cxxopts::value<unsigned long>(), "C")
 			("r,runs", "experiment runs", cxxopts::value<unsigned>(), "R")
+			("s,size", "(initial) queue size", cxxopts::value<unsigned>(), "S")
 			("w,wait-free", "use wait-free queue access")
 //			("z,zero-copy", "use zero-copy enqueueing")
 			("h,help", "print this help message");
@@ -80,6 +82,9 @@ namespace queue_performance {
 
 		if (parsed_opts.count("r"))
 			config.runs = parsed_opts["r"].as<unsigned>();
+
+		if (parsed_opts.count("s"))
+			config.size = parsed_opts["s"].as<unsigned>();
 
 		if (parsed_opts.count("w"))
 			config.wait_free = true;

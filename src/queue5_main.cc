@@ -12,7 +12,7 @@ int main(int argc_, char** argv_)
 	auto data = new qp::static_data_t<qp::Len>[config.count];
 
 	for (unsigned j = 0; j < config.runs; j++) {
-		qp::queue5<qp::static_data_t<qp::Len>> queue;
+		qp::queue5<qp::static_data_t<qp::Len>> queue(config.size);
 
 		auto producer = [&queue, &config, &data]() {
 			for (unsigned long i = 0; i < config.count; i++)
