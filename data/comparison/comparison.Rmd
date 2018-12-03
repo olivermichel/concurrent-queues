@@ -7,24 +7,6 @@ output:
 ---
 
 ```{r setup, include=FALSE, message=FALSE, cache=FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE,
-  dev = c('png', 'pdf'), 
-  fig.align = 'center',
-  fig.height = 2.5,
-  fig.width = 5.5,
-  fig.keep = 'high',
-  fig.path = 'fig/') 
-
-inside_knitr = function() {
-    length(knitr::opts_current$get()) > 0
-}
-
-library(readr)
-library(ggplot2)
-library(reshape2)
-library(plyr)
-
 source('../config-r/config.R')
 ```
 
@@ -59,9 +41,9 @@ ggplot(tp_summary, aes(x=reorder(queue, mean), y=mean)) +
     theme_om() + ylab('Mean Throughput [M records/s]') + xlab('Queue')
 ```
 
-```{r cdf,  message=FALSE}
-ggplot(data, aes(throughput, color=queue)) + stat_ecdf(size=0.75) +
+```{r cdf, fig.height = 2, fig.width = 4.5, message=FALSE}
+ggplot(data, aes(throughput, color=queue)) + stat_ecdf(size=1) +
   theme_om() +
   theme(legend.position = c(0.99, 0.5), legend.title = element_blank()) +
-  xlab('Throughput [M records/s]') + ylab('CDF') + scale_color_brewer(palette="Dark2")
+  xlab('Throughput [M records/s]') + ylab('CDF') + scale_color_manual(values=cs1, labels= c('Cameron314', 'Queue 1', 'Queue 2', 'Queue 3', 'Queue 4', 'Queue 5')) + xlim(c(0,10))
 ```
