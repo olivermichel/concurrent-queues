@@ -91,50 +91,57 @@ namespace queue_performance {
 		return config;
 	}
 
+//	using data_t = unsigned long;
+
+	template <unsigned L>
 	class data_t {
 	public:
-		explicit data_t(unsigned short l_ = 8)
-			: _l(l_), _data(new unsigned char[l_])
+		explicit data_t()
+			: _data{}
 		{
-			std::fill(_data, _data + l_, '\0');
+			std::fill(_data, _data + L, '\0');
 		}
 
-		data_t(const data_t& copy_from_)
-			: _l(copy_from_._l), _data(new unsigned char[copy_from_._l])
-		{
-			std::memcpy(_data, copy_from_._data, copy_from_._l);
-		}
+//		data_t(const data_t& copy_from_)
+//			: /* _l(copy_from_._l), */_data(/*new unsigned char[copy_from_._l]*/)
+//		{
+//			std::cout << "copy construct" << std::endl;
+//			std::memcpy(_data, copy_from_._data, L);
+//		}
+//
+//		data_t& operator=(const data_t& copy_from_)
+//		{
+////			_l = copy_from_._l;
+////			_data = new unsigned char[copy_from_._l];
+//			std::memcpy(_data, copy_from_._data, L);
+//			return *this;
+//		}
 
-		data_t& operator=(const data_t& copy_from_)
-		{
-			_l = copy_from_._l;
-			_data = new unsigned char[copy_from_._l];
-			std::memcpy(_data, copy_from_._data, copy_from_._l);
-			return *this;
-		}
+//		data_t(data_t&& move_from_) noexcept
+//			: _data(move_from_._data)
+//		{
+////			move_from_._data = nullptr;
+//		}
 
-		data_t(data_t&& move_from_) noexcept
-			: _l(move_from_._l), _data(move_from_._data)
-		{
-			move_from_._data = nullptr;
-		}
+//		data_t& operator=(data_t&& move_from_) noexcept
+//		{
+////			_l = move_from_._l;
+//			_data = move_from_._data;
+//			move_from_._data = nullptr;
+//			return *this;
+//		}
 
-		data_t& operator=(data_t&& move_from_) noexcept
-		{
-			_l = move_from_._l;
-			_data = move_from_._data;
-			move_from_._data = nullptr;
-			return *this;
-		}
-
-		virtual ~data_t()
-		{
-			delete[] _data;
-		}
+//		virtual ~data_t()
+//		{
+//			delete[] _data;
+//		}
 
 	private:
-		unsigned short _l;
-		unsigned char* _data;
+//		unsigned short _l;
+
+		unsigned char _data[L];
+
+//		unsigned char* _data;
 	};
 
 	double secs_since(std::chrono::time_point<std::chrono::high_resolution_clock>& start_)
