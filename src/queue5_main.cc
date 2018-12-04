@@ -15,8 +15,13 @@ int main(int argc_, char** argv_)
 		qp::queue5<qp::static_data_t<qp::Len>> queue(config.size);
 
 		auto producer = [&queue, &config, &data]() {
-			for (unsigned long i = 0; i < config.count; i++)
-				while(!queue.enqueue(std::move(data[i])));
+			for (unsigned long i = 0; i < config.count; i++) {
+				if (config.move_enq) {
+					while (!queue.enqueue(std::move(data[i]))) {}
+				} else {
+					while(!queue.enqueue(data[i])) { }
+				}
+			}
 		};
 
 		auto consumer = [&queue, &config]() {

@@ -106,7 +106,8 @@ namespace queue_performance {
 
 		inline bool available(index_t count_)
 		{
-			return (_tail.load(_mod_load_order) - _head.load(_mod_load_order)) < (_capacity - count_);
+			return (_tail.load(_mod_load_order) - _head.load(_mod_load_order))
+				< (_capacity - count_);
 		}
 
 		inline signal last_signal() const

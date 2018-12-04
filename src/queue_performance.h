@@ -45,8 +45,8 @@ namespace queue_performance {
 		unsigned long  count = 10 * 1000000;
 		unsigned       runs  = 1;
 		unsigned       size  = 2048;
-		bool wait_free = false;
-//		bool zero_copy = false;
+//		bool wait_free = false;
+		bool move_enq        = false;
 	};
 
 	void _print_help(cxxopts::Options& opts_, int exit_code_ = 0)
@@ -63,6 +63,7 @@ namespace queue_performance {
 		opts.add_options()
 //			("b,bytes", "bytes per element", cxxopts::value<unsigned short>(), "B")
 			("c,count", "element count in millions", cxxopts::value<unsigned long>(), "C")
+			("m,move-enqueue", "enqueue using move operation")
 			("r,runs", "experiment runs", cxxopts::value<unsigned>(), "R")
 			("s,size", "(initial) queue size", cxxopts::value<unsigned>(), "S")
 			("w,wait-free", "use wait-free queue access")
@@ -86,8 +87,10 @@ namespace queue_performance {
 		if (parsed_opts.count("s"))
 			config.size = parsed_opts["s"].as<unsigned>();
 
-		if (parsed_opts.count("w"))
-			config.wait_free = true;
+		config.move_enq = parsed_opts.count("m") > 0;
+
+//		if (parsed_opts.count("w"))
+//			config.wait_free = true;
 
 		if (parsed_opts.count("h"))
 			_print_help(opts_);
