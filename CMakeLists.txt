@@ -52,14 +52,14 @@ add_executable(moodycamel_queue src/moodycamel_queue_main.cc src/queue_performan
 target_include_directories(moodycamel_queue PUBLIC ext/include)
 target_link_libraries(moodycamel_queue pthread)
 
-add_executable(queue5_detail src/queue5_detail_main.cc src/queue_performance.h src/queue5.h)
-target_include_directories(queue5_detail PUBLIC ext/include)
-target_link_libraries(queue5_detail pthread)
-
-add_executable(queue5_batch src/queue5_batch_main.cc src/queue_performance.h src/queue5.h)
-target_include_directories(queue5_batch PUBLIC ext/include)
-target_link_libraries(queue5_batch pthread)
-
-add_executable(queue5_pipeline src/queue5_pipeline_main.cc src/queue_performance.h src/queue5.h)
-target_include_directories(queue5_pipeline PUBLIC ext/include)
-target_link_libraries(queue5_pipeline pthread)
+#add_executable(queue5_detail src/queue5_detail_main.cc src/queue_performance.h src/queue5.h)
+#target_include_directories(queue5_detail PUBLIC ext/include)
+#target_link_libraries(queue5_detail pthread)
+#
+#add_executable(queue5_batch src/queue5_batch_main.cc src/queue_performance.h src/queue5.h)
+#target_include_directories(queue5_batch PUBLIC ext/include)
+#target_link_libraries(queue5_batch pthread)
+#
+#add_executable(queue5_pipeline src/queue5_pipeline_main.cc src/queue_performance.h src/queue5.h)
+#target_include_directories(queue5_pipeline PUBLIC ext/include)
+#target_link_libraries(queue5_pipeline pthread)
